@@ -1,5 +1,4 @@
 from typing import Tuple, Union, List
-
 import numpy as np
 
 
@@ -110,7 +109,6 @@ def _get_pixels2(arr: np.ndarray, mask: List) -> List:
         Array of non-masked data.
     """
     ind = _get_indices2(arr, mask)
-
     fn = lambda x: arr[x[0], x[1]]
     values = list(map(fn, ind))
     return values
