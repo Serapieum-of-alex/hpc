@@ -55,7 +55,7 @@ def get_pixels(arr, mask, mask_val=None):
     return vals
 
 
-def _get_indices2(arr: np.ndarray, mask: List) -> List[Tuple[int, int]]:
+def get_indices2(arr: np.ndarray, mask: List) -> List[Tuple[int, int]]:
     """Get Indeces
 
         - get the indeces of array cells after filtering the values based on two mask values
@@ -79,7 +79,10 @@ def _get_indices2(arr: np.ndarray, mask: List) -> List[Tuple[int, int]]:
                 ~np.isclose(arr, mask[1], rtol=0.001),
             )
         else:
-            mask = ~np.isclose(arr, mask[0], rtol=0.001)
+            if np.isnan(mask[0]):
+                mask = ~np.isnan(arr)
+            else:
+                mask = ~np.isclose(arr, mask[0], rtol=0.001)
 
         rows = np.where(mask)[0]
         cols = np.where(mask)[1]
@@ -108,7 +111,7 @@ def _get_pixels2(arr: np.ndarray, mask: List) -> List:
     np.ndarray
         Array of non-masked data.
     """
-    ind = _get_indices2(arr, mask)
+    ind = get_indices2(arr, mask)
     fn = lambda x: arr[x[0], x[1]]
     values = list(map(fn, ind))
     return values
