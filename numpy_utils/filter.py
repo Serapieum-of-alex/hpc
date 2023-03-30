@@ -2,7 +2,7 @@ from typing import Tuple, Union, List
 import numpy as np
 
 
-def _get_indeces(
+def get_indices(
     arr: np.ndarray, mask_val: Union[int, float]
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Get the array indeces for the non-zero cells.
@@ -49,7 +49,7 @@ def get_pixels(arr, mask, mask_val=None):
     if mask is None:
         return arr
 
-    i, j = _get_indeces(mask, mask_val)
+    i, j = get_indices(mask, mask_val)
     # get the coresponding values to the indeces from the array
     vals = arr[i, j] if arr.ndim == 2 else arr[:, i, j]
     return vals
@@ -96,7 +96,7 @@ def get_indices2(arr: np.ndarray, mask: List) -> List[Tuple[int, int]]:
     return ind
 
 
-def _get_pixels2(arr: np.ndarray, mask: List) -> List:
+def get_pixels2(arr: np.ndarray, mask: List) -> List:
     """Get pixels from a raster (with optional mask).
 
     Parameters
