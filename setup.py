@@ -16,7 +16,7 @@ setup(
     author="Mostafa Farrag",
     author_email="moah.farag@gmail.come",
     url="https://github.com/MAfarrag/numpy-utils",
-    keywords=["GIS", "gdal", "rasterio"],
+    keywords=["numpy", "computation"],
     long_description=readme + "\n\n" + history,
     repository="https://github.com/MAfarrag/numpy-utils",
     documentation="https://numpy-utils.readthedocs.io/",
