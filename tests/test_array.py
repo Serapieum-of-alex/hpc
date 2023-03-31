@@ -322,5 +322,5 @@ def test_locate_values():
 
     points = np.array([[454795, 503143], [443847, 481850], [454044, 481189]])
     right_indices = np.array([[5, 4], [2, 9], [5, 9]])
-    index = locate_values(points, grid)
+    index = locate_values(points, grid[:, 0], grid[:, 1])
     assert np.array_equal(index, right_indices)

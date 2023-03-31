@@ -117,7 +117,7 @@ def get_pixels2(arr: np.ndarray, mask: List) -> List:
     return values
 
 
-def locate_values(values: np.ndarray, grid: np.ndarray):
+def locate_values(values: np.ndarray, grid_x: np.ndarray, grid_y: np.ndarray):
     """Locate values in an array
 
         locate a value in array, each point has to values (resembling the x & y coordinates), the values array
@@ -131,11 +131,10 @@ def locate_values(values: np.ndarray, grid: np.ndarray):
         array([[454795, 503143],
                [443847, 481850],
                [454044, 481189]])
-    grid: [array]
-        array with a dimension (any, 2), resembling the x & y coordinates (first and second columns
-        respectively).
-        - The first column is the x coordinates starting from left to righ (west to east), so the first value is the min
-        - The second column is the y coordinates starting from top to bottom (north to south), so the first value is
+    grid_x: [array]
+        - The x coordinates starting from left to righ (west to east), so the first value is the mine first value is
+    grid_y: [array]
+        - The y coordinates starting from top to bottom (north to south), so the first value is
         the max
         np.array([[434968, 518007],
                    [438968, 514007],
@@ -160,12 +159,9 @@ def locate_values(values: np.ndarray, grid: np.ndarray):
                [ 2,  9],
                [ 5,  9]])
     """
-    x_grid = grid[:, 0]
-    y_grid = grid[:, 1]
-
     def find(point_i):
-        x_ind = np.abs(point_i[0] - x_grid).argmin()
-        y_ind = np.abs(point_i[1] - y_grid).argmin()
+        x_ind = np.abs(point_i[0] - grid_x).argmin()
+        y_ind = np.abs(point_i[1] - grid_y).argmin()
         return x_ind, y_ind
 
     indices = np.array(list(map(find, values)))
