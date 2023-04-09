@@ -10,12 +10,12 @@ requirements = [line.strip() for line in open("requirements.txt").readlines()]
 requirements_dev = [line.strip() for line in open("requirements-dev.txt").readlines()]
 
 setup(
-    name="hpc",
+    name="hpc-utils",
     version="0.1.0",
     description="numpy utility package",
     author="Mostafa Farrag",
     author_email="moah.farag@gmail.come",
-    url="https://github.com/MAfarrag/numpy-utils",
+    url="https://github.com/MAfarrag/hpc",
     keywords=["numpy", "computation"],
     long_description=readme + "\n\n" + history,
     repository="https://github.com/MAfarrag/numpy-utils",
@@ -23,7 +23,7 @@ setup(
     long_description_content_type="text/markdown",
     license="GNU General Public License v3",
     zip_safe=False,
-    packages=find_packages(include=["numpy_utils", "numpy_utils.*"]),
+    packages=find_packages(include=["hpc", "hpc.*"]),
     test_suite="tests",
     tests_require=requirements_dev,
     install_requires=requirements,
