@@ -1,6 +1,6 @@
 import numpy as np
 
-from numpy_utils.filter import get_indices2, locate_values
+from hpc.filter import get_indices2, locate_values
 
 
 class TestGetIndeces2:

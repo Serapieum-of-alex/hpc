@@ -10,7 +10,7 @@ requirements = [line.strip() for line in open("requirements.txt").readlines()]
 requirements_dev = [line.strip() for line in open("requirements-dev.txt").readlines()]
 
 setup(
-    name="numpy-utils",
+    name="hpc",
     version="0.1.0",
     description="numpy utility package",
     author="Mostafa Farrag",
