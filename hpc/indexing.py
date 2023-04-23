@@ -55,7 +55,7 @@ def get_pixels(arr, mask, mask_val=None):
     return vals
 
 
-def get_indices2(arr: np.ndarray, mask: List) -> List[Tuple[int, int]]:
+def get_indices2(arr: np.ndarray, mask: List = None) -> List[Tuple[int, int]]:
     """Get Indeces
 
         - get the indeces of array cells after filtering the values based on two mask values
@@ -96,7 +96,7 @@ def get_indices2(arr: np.ndarray, mask: List) -> List[Tuple[int, int]]:
     return ind
 
 
-def get_pixels2(arr: np.ndarray, mask: List) -> List:
+def get_pixels2(arr: np.ndarray, mask: List = None) -> List:
     """Get pixels from a raster (with optional mask).
 
     Parameters
@@ -111,8 +111,14 @@ def get_pixels2(arr: np.ndarray, mask: List) -> List:
     np.ndarray
         Array of non-masked data.
     """
-    ind = get_indices2(arr, mask)
-    fn = lambda x: arr[x[0], x[1]]
+    if arr.ndim == 2:
+        ind = get_indices2(arr, mask)
+        fn = lambda x: arr[x[0], x[1]]
+    else:
+        ind = get_indices2(arr[0, :, :], mask)
+        fn = lambda x: arr[:, x[0], x[1]]
+
+    # access the array with the indices
     values = list(map(fn, ind))
     return values
 
