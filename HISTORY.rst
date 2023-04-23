@@ -6,3 +6,9 @@ History
 ------------------
 
 * First release on PyPI.
+
+
+0.1.1 (2023-04-23)
+------------------
+
+* get_pixels works with 3d arrays
