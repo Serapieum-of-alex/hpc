@@ -96,7 +96,7 @@ def get_indices2(arr: np.ndarray, mask: List = None) -> List[Tuple[int, int]]:
     return ind
 
 
-def get_pixels2(arr: np.ndarray, mask: List = None) -> List:
+def get_pixels2(arr: np.ndarray, mask: List = None) -> np.ndarray:
     """Get pixels from a raster (with optional mask).
 
     Parameters
@@ -114,12 +114,14 @@ def get_pixels2(arr: np.ndarray, mask: List = None) -> List:
     if arr.ndim == 2:
         ind = get_indices2(arr, mask)
         fn = lambda x: arr[x[0], x[1]]
+        values = np.fromiter(map(fn, ind), dtype=arr.dtype)
     else:
         ind = get_indices2(arr[0, :, :], mask)
         fn = lambda x: arr[:, x[0], x[1]]
+        values = list(map(fn, ind))
+        values = np.array(values, dtype=arr.dtype)
+        values = values.transpose()
 
-    # access the array with the indices
-    values = list(map(fn, ind))
     return values
 
 
