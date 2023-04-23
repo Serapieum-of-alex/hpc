@@ -165,6 +165,7 @@ def locate_values(values: np.ndarray, grid_x: np.ndarray, grid_y: np.ndarray):
                [ 2,  9],
                [ 5,  9]])
     """
+
     def find(point_i):
         x_ind = np.abs(point_i[0] - grid_x).argmin()
         y_ind = np.abs(point_i[1] - grid_y).argmin()

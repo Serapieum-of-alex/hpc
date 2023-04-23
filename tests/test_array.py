@@ -1,14 +1,14 @@
 import numpy as np
 
-from hpc.filter import get_indices2, locate_values
+from hpc.indexing import get_indices2, locate_values, get_pixels2
 
 
 class TestGetIndeces2:
     def test_with_mask(
-            self,
-            arr: np.ndarray,
+        self,
+        arr: np.ndarray,
     ):
-        no_data_value = arr[0,0]
+        no_data_value = arr[0, 0]
         indices = get_indices2(arr, [no_data_value])
 
         inds = [
@@ -106,10 +106,9 @@ class TestGetIndeces2:
         assert indices == inds
 
     def test_without_mask(
-            self,
-            arr: np.ndarray,
+        self,
+        arr: np.ndarray,
     ):
-        no_data_value = arr[0, 0]
         indices = get_indices2(arr, mask=None)
 
         inds = [
@@ -324,3 +323,33 @@ def test_locate_values():
     right_indices = np.array([[5, 4], [2, 9], [5, 9]])
     index = locate_values(points, grid[:, 0], grid[:, 1])
     assert np.array_equal(index, right_indices)
+
+
+class TestGetPixels:
+    def test_without_mask(
+        self,
+        arr: np.ndarray,
+    ):
+        values = get_pixels2(arr, mask=None)
+        assert np.array_equal(values, arr.flatten())
+
+    def test_with_mask(
+        self,
+        arr: np.ndarray,
+        arr_vals: np.ndarray,
+    ):
+        mask = arr[0, 0]
+        values = get_pixels2(arr, mask=[mask])
+        assert np.array_equal(values, arr_vals)
+
+    def test_3d(
+        self,
+        arr_3d: np.ndarray,
+    ):
+        values = get_pixels2(arr_3d)
+        vals = np.array(values)
+        vals = vals.transpose()
+        arr_validate = arr_3d.reshape(
+            (arr_3d.shape[0], arr_3d.shape[1] * arr_3d.shape[2])
+        )
+        np.array_equal(vals, arr_validate)
