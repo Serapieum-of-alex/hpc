@@ -11,7 +11,7 @@ requirements_dev = [line.strip() for line in open("requirements-dev.txt").readli
 
 setup(
     name="hpc-utils",
-    version="0.1.1",
+    version="0.1.2",
     description="numpy utility package",
     author="Mostafa Farrag",
     author_email="moah.farag@gmail.come",

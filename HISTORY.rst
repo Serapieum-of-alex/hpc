@@ -12,3 +12,8 @@ History
 ------------------
 
 * get_pixels works with 3d arrays
+
+0.1.2 (2023-08-30)
+------------------
+
+* Update dependencies
