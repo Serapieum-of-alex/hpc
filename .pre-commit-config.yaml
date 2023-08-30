@@ -108,7 +108,7 @@ repos:
     hooks:
       - id: pytest-check
         name: pytest-check
-        entry: pytest -vvv --cov=numpy_utils
+        entry: pytest -vvv --cov=hpc
         language: system
         pass_filenames: false
         always_run: true
