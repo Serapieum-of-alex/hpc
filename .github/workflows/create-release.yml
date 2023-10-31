@@ -14,16 +14,40 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+#      - name: Create GitHub Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          draft: false
+#          prerelease: false
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup GitHub CLI
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt update
+          sudo apt install gh
+
       - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
+#        id: create_release
+        run: |
+          gh release create ${{ github.ref }} \
+            --title "$release_name" \
+            --notes "Release notes for $tag_name"
+#            ./path/to/your/asset.zip \
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
 
 #      - name: Upload Release Asset
 #        uses: actions/upload-release-asset@v1
