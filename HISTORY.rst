@@ -17,3 +17,8 @@ History
 ------------------
 
 * Update dependencies
+
+0.1.3 (2023-10-31)
+------------------
+
+* Update dependencies
