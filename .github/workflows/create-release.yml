@@ -35,7 +35,7 @@ jobs:
         run: |
           gh release create $TAG_NAME \
             --title "$TAG_NAME" \
-            --verify-tag                          # verify the tag before creating the release
+            --verify-tag \                         # verify the tag before creating the release
             --notes-from-tag                      # automatically generate the release notes from the annotated git tag.
 #            --notes "Release notes for ${{ github.ref }}"
 #            ./dist/asset.zip \
