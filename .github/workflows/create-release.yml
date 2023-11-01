@@ -23,9 +23,9 @@ jobs:
           && sudo apt update \
           && sudo apt install gh -y
 
-      - name: build wheel
-        run: |
-          python setup.py sdist bdist_wheel
+#      - name: build wheel
+#        run: |
+#          python setup.py sdist bdist_wheel
 
       - name: Extract tag name
         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
@@ -33,10 +33,7 @@ jobs:
       - name: Create GitHub Release
         id: create_release
         run: |
-          gh release create ${{ github.ref }} \
-            --title "$TAG_NAME" \
-            --verify-tag \
-            --notes-from-tag
+          gh release create ${{ github.ref }} --title "$TAG_NAME"  --verify-tag --notes-from-tag
 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
