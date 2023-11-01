@@ -1,4 +1,4 @@
-name: Linux
+name: Pypi deployment
 on:
     push:
         branches:

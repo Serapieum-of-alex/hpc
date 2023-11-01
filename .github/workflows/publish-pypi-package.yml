@@ -5,7 +5,9 @@ name: pypi-package
 
 on:
     release:
-        types: [created]
+        types:
+          - created
+          - published
 
 jobs:
     deploy:
