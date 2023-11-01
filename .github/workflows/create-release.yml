@@ -34,11 +34,9 @@ jobs:
         id: create_release
         run: |
           gh release create ${{ github.ref }} \
-            --title "$TAG_NAME"
+            --title "$TAG_NAME" \
             --verify-tag \
             --notes-from-tag
-#            --notes "Release notes for ${{ github.ref }}"
-#            ./dist/asset.zip \
 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
