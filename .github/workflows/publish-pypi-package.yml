@@ -4,8 +4,9 @@
 name: pypi-publish
 
 on:
-    release:
-      types: [published]
+  release:
+    types:
+      - published
 
 jobs:
     deploy:
