@@ -14,17 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-#      - name: Create GitHub Release
-#        id: create_release
-#        uses: actions/create-release@v1
-#        with:
-#          tag_name: ${{ github.ref }}
-#          release_name: Release ${{ github.ref }}
-#          draft: false
-#          prerelease: false
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Setup GitHub CLI
         run: |
           type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
@@ -38,11 +27,14 @@ jobs:
         run: |
           python setup.py sdist bdist_wheel
 
+      - name: Extract tag name
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
       - name: Create GitHub Release
         id: create_release
         run: |
-          gh release create ${{ github.ref }} \
-            --title "${{ github.ref }}" \
+          gh release create $TAG_NAME \
+            --title "$TAG_NAME" \
             --verify-tag                          # verify the tag before creating the release
             --notes-from-tag                      # automatically generate the release notes from the annotated git tag.
 #            --notes "Release notes for ${{ github.ref }}"
@@ -51,13 +43,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-
-#      - name: Upload Release Asset
-#        uses: actions/upload-release-asset@v1
-#        with:
-#          upload_url: ${{ steps.create_release.outputs.upload_url }}
-#          asset_path: ./path/to/your/asset.zip
-#          asset_name: asset.zip
-#          asset_content_type: application/zip
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
