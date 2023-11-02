@@ -31,7 +31,6 @@ jobs:
         id: create_release
         run: |
           gh release create $TAG_NAME --title "$TAG_NAME"  --verify-tag --notes-from-tag
-
         env:
           GH_TOKEN: ${{ secrets.github-release }}
 #          GH_REPO: ${{ github.repository }}
