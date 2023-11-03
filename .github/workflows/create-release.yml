@@ -30,6 +30,6 @@ jobs:
       - name: Create GitHub Release
         id: create_release
         run: |
-          gh release create $TAG_NAME --title "$TAG_NAME"  --verify-tag --notes-from-tag
+          gh release create $TAG_NAME --title "$TAG_NAME"  --notes-from-tag
         env:
           GH_TOKEN: ${{ secrets.CREATE_RELEASE }}
