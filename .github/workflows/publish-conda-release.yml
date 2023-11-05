@@ -19,12 +19,15 @@ jobs:
       - name: Read requirements.txt and format
         id: reqs
         run: |
-           REQUIREMENTS=$(awk '{print "    - "$1}' requirements.txt)
-           # REQUIREMENTS=$(awk '{print}' requirements.txt)
-           REQUIREMENTS="${REQUIREMENTS//'%'/'%25'}"
-           REQUIREMENTS="${REQUIREMENTS//$'\n'/'%0A'}"
-           REQUIREMENTS="${REQUIREMENTS//$'\r'/'%0D'}"
-           echo "::set-output name=requirements::$REQUIREMENTS"
+          REQUIREMENTS=$(awk '{print "    - "$1}' requirements.txt)
+          REQUIREMENTS="${REQUIREMENTS//'%'/'%25'}"
+          REQUIREMENTS="${REQUIREMENTS//$'\n'/'%0A'}"
+          REQUIREMENTS="${REQUIREMENTS//$'\r'/'%0D'}"
+          echo "REQUIREMENTS<<EOF" >> $GITHUB_ENV
+          echo "$REQUIREMENTS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo $REQUIREMENTS
+
 
       - name: Checkout the feedstock
         uses: actions/checkout@v2
