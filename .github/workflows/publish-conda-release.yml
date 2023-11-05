@@ -31,7 +31,7 @@ jobs:
         run: |
           curl -sL "https://raw.githubusercontent.com/Serapieum-of-alex/hpc/$TAG_NAME/requirements.txt" -o requirements.txt
           # formatted_requirements=$(sed 's/^/  - /' "requirements.txt")
-          formatted_requirements=$(sed 's/^/  - /' "$requirements_txt" | tr '\n' '\\' | sed 's/\\/\\n/g')
+          formatted_requirements=$(sed 's/^/  - /' "requirements.txt" | tr '\n' '\\' | sed 's/\\/\\n/g')
           sed -i.bak "/^requirements: run:/,/^[^ ]/!b; /^  - /,/^[^ ]/c\\
           requirements: run:\\
           $formatted_requirements
