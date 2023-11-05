@@ -19,10 +19,11 @@ jobs:
       - name: Read requirements.txt and format
         id: reqs
         run: |
-          REQUIREMENTS=$(awk '{print "    - "$1}' requirements.txt)
-          REQUIREMENTS="${REQUIREMENTS//'%'/'%25'}"
-          REQUIREMENTS="${REQUIREMENTS//$'\n'/'%0A'}"
-          REQUIREMENTS="${REQUIREMENTS//$'\r'/'%0D'}"
+          # REQUIREMENTS=$(awk '{print "    - "$1}' requirements.txt)
+          # REQUIREMENTS="${REQUIREMENTS//'%'/'%25'}"
+          # REQUIREMENTS="${REQUIREMENTS//$'\n'/'%0A'}"
+          # REQUIREMENTS="${REQUIREMENTS//$'\r'/'%0D'}"
+          REQUIREMENTS=$(cat requirements.txt)
           echo "REQUIREMENTS<<EOF" >> $GITHUB_ENV
           echo "$REQUIREMENTS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
