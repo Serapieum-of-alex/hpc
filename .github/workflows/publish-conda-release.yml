@@ -35,7 +35,7 @@ jobs:
           sed -i.bak "/^requirements: run:/,/^[^ ]/!b; /^  - /,/^[^ ]/c\\
           requirements: run:\\
           $formatted_requirements
-          " "$$YAML_PATH"
+          " "$YAML_PATH"
           cat $YAML_PATH
 
       - name: Configure Git
