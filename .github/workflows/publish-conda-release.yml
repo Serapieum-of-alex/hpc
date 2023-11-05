@@ -7,7 +7,25 @@ on:
 jobs:
   update-conda-forge:
     runs-on: ubuntu-latest
+    env:
+      TAG_NAME: ${{ github.event.release.tag_name }}
+      YAML_PATH: conda-forge/hpc-feedstock/recipe/meta.yaml
+
     steps:
+      - name: Download requirements.txt
+        run: |
+          curl -sL "https://raw.githubusercontent.com/Serapieum-of-alex/hpc/$TAG_NAME/requirements.txt" -o requirements.txt
+
+      - name: Read requirements.txt and format
+        id: reqs
+        run: |
+          # REQUIREMENTS=$(awk '{print "    - "$1}' requirements.txt)
+          REQUIREMENTS=$(awk '{print}' requirements.txt)
+          # REQUIREMENTS="${REQUIREMENTS//'%'/'%25'}"
+          # REQUIREMENTS="${REQUIREMENTS//$'\n'/'%0A'}"
+          # REQUIREMENTS="${REQUIREMENTS//$'\r'/'%0D'}"
+          echo "::set-output name=requirements::$REQUIREMENTS"
+
       - name: Checkout the feedstock
         uses: actions/checkout@v2
         with:
@@ -16,12 +34,21 @@ jobs:
 
       - name: Update recipe version and sha256
         run: |
+          echo $TAG_NAME
           # Assuming a simple Python package, update the version
-          sed -i "s/version = \".*\"/version = \"${{ github.event.release.tag_name }}\"/" recipe/meta.yaml
+          sed -i "s/version = \".*\"/version = \"$TAG_NAME\"/" recipe/meta.yaml
           # Update the sha256 checksum (you would need to calculate this, e.g., by downloading the release source archive)
-          SHA256SUM=$(wget -qO- https://github.com/Serapieum-of-alex/hpc/archive/${{ github.event.release.tag_name }}.tar
-          .gz | sha256sum | cut -d ' ' -f1)
+          SHA256SUM=$(wget -qO- https://github.com/Serapieum-of-alex/hpc/archive/$TAG_NAME.tar.gz | sha256sum | cut -d ' ' -f1)
           sed -i "s/sha256: .*/sha256: $SHA256SUM/" recipe/meta.yaml
+
+      - name: Update requirements
+        run: |
+          REQUIREMENTS="${{ steps.reqs.outputs.requirements }}"
+          # Use yq or another YAML processor to update the meta.yaml file
+          # This is a placeholder for the command you would use:
+          echo "$REQUIREMENTS" > requirements_section.txt
+          # Assuming you want to replace the build/run requirements:
+          sed -i '/^requirements:$/,/^  run:$/c\requirements:\n  run:\n'"$REQUIREMENTS" $YAML_PATH
 
       - name: Configure Git
         run: |
@@ -31,7 +58,7 @@ jobs:
       - name: Commit changes
         run: |
           git add recipe/meta.yaml
-          git commit -m "Update to version ${{ github.event.release.tag_name }}"
+          git commit -m "Update to version $TAG_NAME
 
       - name: Push changes
         run: |
@@ -39,9 +66,10 @@ jobs:
 
       # If you want to create a pull request to the feedstock repository
       - name: Create Pull Request
+        run: |
+          echo $TAG_NAME
+          git checkout -b version-update-$TAG_NAME
+          git push origin version-update-$TAG_NAME
+          gh pr create --title "Update recipe to $TAG_NAME" --body "This PR updates the recipe to the newly released version." --head version-update-$TAG_NAME --base main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git checkout -b version-update-${{ github.event.release.tag_name }}
-          git push origin version-update-${{ github.event.release.tag_name }}
-          gh pr create --title "Update recipe to ${{ github.event.release.tag_name }}" --body "This PR updates the recipe to the newly released version." --head version-update-${{ github.event.release.tag_name }} --base main
