@@ -1,0 +1,49 @@
+name: Update Conda-Forge Recipe
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-conda-forge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the feedstock
+        uses: actions/checkout@v2
+        with:
+          repository: conda-forge/hpc-feedstock
+          token: ${{ secrets.CREATE_RELEASE }}
+
+      - name: Update recipe version and sha256
+        run: |
+          # Assuming a simple Python package, update the version
+          sed -i "s/version = \".*\"/version = \"${{ github.event.release.tag_name }}\"/" recipe/meta.yaml
+          # Update the sha256 checksum (you would need to calculate this, e.g., by downloading the release source archive)
+          SHA256SUM=$(wget -qO- https://github.com/Serapieum-of-alex/hpc/archive/${{ github.event.release.tag_name }}.tar
+          .gz | sha256sum | cut -d ' ' -f1)
+          sed -i "s/sha256: .*/sha256: $SHA256SUM/" recipe/meta.yaml
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'mafarrag'
+          git config --global user.email 'moah.farag@example.com'
+
+      - name: Commit changes
+        run: |
+          git add recipe/meta.yaml
+          git commit -m "Update to version ${{ github.event.release.tag_name }}"
+
+      - name: Push changes
+        run: |
+          git push
+
+      # If you want to create a pull request to the feedstock repository
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.CREATE_RELEASE }}
+          commit-message: Update recipe for release ${{ github.event.release.tag_name }}
+          title: 'Update recipe to ${{ github.event.release.tag_name }}'
+          body: |
+            This PR updates the recipe to the newly released version.
+          branch: version-update-${{ github.event.release.tag_name }}
