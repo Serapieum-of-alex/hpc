@@ -12,29 +12,6 @@ jobs:
       YAML_PATH: recipe/meta.yaml
 
     steps:
-      - name: Download requirements.txt
-        run: |
-          curl -sL "https://raw.githubusercontent.com/Serapieum-of-alex/hpc/$TAG_NAME/requirements.txt" -o requirements.txt
-
-#      - name: Read requirements.txt and format
-#        id: reqs
-#        run: |
-#          # Use awk to read each line in requirements.txt and prepend with four spaces and a dash
-#          REQUIREMENTS=$(awk '{printf "    - %s\n", $0}' requirements.txt)
-#          # Use sed to escape '%' characters, which are special in GitHub Actions
-#          REQUIREMENTS=$(echo "$REQUIREMENTS" | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')
-#          # Write the formatted requirements to the GITHUB_ENV file
-#          echo "REQUIREMENTS<<EOF" >> $GITHUB_ENV
-#          echo "$REQUIREMENTS" >> $GITHUB_ENV
-#          echo "EOF" >> $GITHUB_ENV
-#          echo $REQUIREMENTS
-#          REQUIREMENTS=$(cat requirements.txt)
-#          echo "REQUIREMENTS<<EOF" >> $GITHUB_ENV
-#          echo "$REQUIREMENTS" >> $GITHUB_ENV
-#          echo "EOF" >> $GITHUB_ENV
-
-
-
       - name: Checkout the feedstock
         uses: actions/checkout@v2
         with:
@@ -50,13 +27,13 @@ jobs:
           SHA256SUM=$(wget -qO- https://github.com/Serapieum-of-alex/hpc/archive/$TAG_NAME.tar.gz | sha256sum | cut -d ' ' -f1)
           sed -i "s/sha256: .*/sha256: $SHA256SUM/" $YAML_PATH
 
-      - name: Update requirements
+      - name: Download requirements.txt
         run: |
+          curl -sL "https://raw.githubusercontent.com/Serapieum-of-alex/hpc/$TAG_NAME/requirements.txt" -o requirements.txt
           formatted_requirements=$(sed 's/^/  - /' "requirements.txt")
           sed -i.bak '/^requirements: run:/,/^[^ ]/!b; /^  - /,/^[^ ]/c\
           requirements: run:
           '"$formatted_requirements" "$YAML_PATH"
-
           cat $YAML_PATH
 
       - name: Configure Git
