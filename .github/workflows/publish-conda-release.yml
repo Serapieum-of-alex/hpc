@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TAG_NAME: ${{ github.event.release.tag_name }}
-      YAML_PATH: ${GITHUB_WORKSPACE}/recipe/meta.yaml
+      YAML_PATH: recipe/meta.yaml
 
     steps:
       - name: Download requirements.txt
