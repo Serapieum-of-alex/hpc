@@ -19,15 +19,20 @@ jobs:
       - name: Read requirements.txt and format
         id: reqs
         run: |
-          # REQUIREMENTS=$(awk '{print "    - "$1}' requirements.txt)
-          # REQUIREMENTS="${REQUIREMENTS//'%'/'%25'}"
-          # REQUIREMENTS="${REQUIREMENTS//$'\n'/'%0A'}"
-          # REQUIREMENTS="${REQUIREMENTS//$'\r'/'%0D'}"
-          REQUIREMENTS=$(cat requirements.txt)
+          # Use awk to read each line in requirements.txt and prepend with four spaces and a dash
+          REQUIREMENTS=$(awk '{printf "    - %s\n", $0}' requirements.txt)
+          # Use sed to escape '%' characters, which are special in GitHub Actions
+          REQUIREMENTS=$(echo "$REQUIREMENTS" | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')
+          # Write the formatted requirements to the GITHUB_ENV file
           echo "REQUIREMENTS<<EOF" >> $GITHUB_ENV
           echo "$REQUIREMENTS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
           echo $REQUIREMENTS
+#          REQUIREMENTS=$(cat requirements.txt)
+#          echo "REQUIREMENTS<<EOF" >> $GITHUB_ENV
+#          echo "$REQUIREMENTS" >> $GITHUB_ENV
+#          echo "EOF" >> $GITHUB_ENV
+
 
 
       - name: Checkout the feedstock
@@ -48,11 +53,9 @@ jobs:
       - name: Update requirements
         run: |
           REQUIREMENTS="${{ steps.reqs.outputs.requirements }}"
-          # Use yq or another YAML processor to update the meta.yaml file
-          # This is a placeholder for the command you would use:
-          echo "$REQUIREMENTS" > requirements_section.txt
-          # Assuming you want to replace the build/run requirements:
-          sed -i '/^requirements:$/,/^  run:$/c\requirements:\n  run:\n'"$REQUIREMENTS" $YAML_PATH
+          # Use the REQUIREMENTS environment variable that we set earlier
+          # Make sure to use double quotes for the variable to interpret newlines
+          sed -i "/^requirements:$/,/^  run:$/c\requirements:\n  run:\n$REQUIREMENTS" "$YAML_PATH"
 
       - name: Configure Git
         run: |
