@@ -19,12 +19,12 @@ jobs:
       - name: Read requirements.txt and format
         id: reqs
         run: |
-          # REQUIREMENTS=$(awk '{print "    - "$1}' requirements.txt)
-          REQUIREMENTS=$(awk '{print}' requirements.txt)
-          # REQUIREMENTS="${REQUIREMENTS//'%'/'%25'}"
-          # REQUIREMENTS="${REQUIREMENTS//$'\n'/'%0A'}"
-          # REQUIREMENTS="${REQUIREMENTS//$'\r'/'%0D'}"
-          echo "::set-output name=requirements::$REQUIREMENTS"
+           REQUIREMENTS=$(awk '{print "    - "$1}' requirements.txt)
+           # REQUIREMENTS=$(awk '{print}' requirements.txt)
+           REQUIREMENTS="${REQUIREMENTS//'%'/'%25'}"
+           REQUIREMENTS="${REQUIREMENTS//$'\n'/'%0A'}"
+           REQUIREMENTS="${REQUIREMENTS//$'\r'/'%0D'}"
+           echo "::set-output name=requirements::$REQUIREMENTS"
 
       - name: Checkout the feedstock
         uses: actions/checkout@v2
@@ -36,10 +36,10 @@ jobs:
         run: |
           echo $TAG_NAME
           # Assuming a simple Python package, update the version
-          sed -i "s/version = \".*\"/version = \"$TAG_NAME\"/" recipe/meta.yaml
+          sed -i "s/version = \".*\"/version = \"$TAG_NAME\"/" $YAML_PATH
           # Update the sha256 checksum (you would need to calculate this, e.g., by downloading the release source archive)
           SHA256SUM=$(wget -qO- https://github.com/Serapieum-of-alex/hpc/archive/$TAG_NAME.tar.gz | sha256sum | cut -d ' ' -f1)
-          sed -i "s/sha256: .*/sha256: $SHA256SUM/" recipe/meta.yaml
+          sed -i "s/sha256: .*/sha256: $SHA256SUM/" $YAML_PATH
 
       - name: Update requirements
         run: |
@@ -53,11 +53,11 @@ jobs:
       - name: Configure Git
         run: |
           git config --global user.name 'mafarrag'
-          git config --global user.email 'moah.farag@example.com'
+          git config --global user.email 'moah.farag@gmail.com'
 
       - name: Commit changes
         run: |
-          git add recipe/meta.yaml
+          git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME
 
       - name: Push changes
