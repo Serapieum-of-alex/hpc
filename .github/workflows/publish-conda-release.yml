@@ -30,12 +30,23 @@ jobs:
       - name: Download requirements.txt
         run: |
           curl -sL "https://raw.githubusercontent.com/Serapieum-of-alex/hpc/$TAG_NAME/requirements.txt" -o requirements.txt
-          # formatted_requirements=$(sed 's/^/  - /' "requirements.txt")
-          formatted_requirements=$(sed 's/^/  - /' "requirements.txt" | tr '\n' '\\' | sed 's/\\/\\n/g')
-          sed -i.bak "/^requirements: run:/,/^[^ ]/!b; /^  - /,/^[^ ]/c\\
-          requirements: run:\\
-          $formatted_requirements
-          " "$YAML_PATH"
+          # Prepare the requirements to be inserted into the meta.yaml
+          # Prefix each line with two spaces and a dash
+          formatted_requirements=$(sed 's/^/  - /' "requirements.txt")
+
+          # Delete the existing 'requirements: run:' section from meta.yaml
+          sed -i '/^requirements: run:/,/^[^ ]/d' "$YAML_PATH"
+
+          # Use awk to append the new requirements after the 'requirements: run:' line
+          awk -v req="$formatted_requirements" '
+              /requirements: run:/ {
+                  print $0;  # Print the line
+                  print req;  # Print the new requirements
+                  next;  # Skip to the next line
+              }
+              { print }  # Print all other lines
+          ' "$YAML_PATH" > temp_meta.yaml && mv temp_meta.yaml "$YAML_PATH"
+
           cat $YAML_PATH
 
       - name: Configure Git
