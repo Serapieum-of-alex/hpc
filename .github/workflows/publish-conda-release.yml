@@ -40,7 +40,11 @@ jobs:
           echo "$formatted_requirements"
 
           # Delete the existing 'requirements: run:' section from meta.yaml
-          sed -i.bak '/  run:/,/^[^ ]/d' $YAML_PATH
+          sed -i.bak '/  run:/,/^[^ ]/{
+                /  run:/b
+                /test:/b
+                d
+            }' $YAML_PATH
 
           cat $YAML_PATH
           echo "-----------------------------------------------------------------------"
