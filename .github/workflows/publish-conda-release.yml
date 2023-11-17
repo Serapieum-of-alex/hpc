@@ -83,7 +83,7 @@ jobs:
           echo "---------------------------"
           git push
         env:
-          token: ${{ secrets.CREATE_RELEASE }}
+          token: ${{ secrets.Push_TO_CONDA_FORGE }}
 
       # If you want to create a pull request to the feedstock repository
       - name: Create Pull Request
@@ -93,4 +93,4 @@ jobs:
           git push origin version-update-$TAG_NAME
           gh pr create --title "Update recipe to $TAG_NAME" --body "This PR updates the recipe to the newly released version." --head version-update-$TAG_NAME --base main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.Push_TO_CONDA_FORGE }}
