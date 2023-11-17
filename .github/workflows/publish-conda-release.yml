@@ -71,13 +71,17 @@ jobs:
       - name: Configure Git
         run: |
           git config --global user.name "mafarrag"
-          git config credential.username "mafarrag"
+          git config --global credential.username "mafarrag"
           git config --global credential.useHttpPath true
           git config --global user.email "moah.farag@gmail.com"
 
-          cat $YAML_PATH
+      - name: Commit changes
+        run: |
+          #cat $YAML_PATH
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
+          echo "---------------------------"
+          git config --list –show-origin
           echo "---------------------------"
           git push
         env:
