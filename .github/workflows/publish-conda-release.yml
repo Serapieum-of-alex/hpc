@@ -81,7 +81,7 @@ jobs:
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
           echo "---------------------------"
-          git config --list –show-origin
+          git config --list --show-origin
           echo "---------------------------"
           git push
         env:
