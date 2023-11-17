@@ -80,11 +80,9 @@ jobs:
           cat $YAML_PATH
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
-
-      - name: Push changes
-        run: |
+          echo "---------------------------"
           git push
-        with:
+        env:
           token: ${{ secrets.CREATE_RELEASE }}
 
       # If you want to create a pull request to the feedstock repository
