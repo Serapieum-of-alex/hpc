@@ -75,8 +75,6 @@ jobs:
           git config --global credential.useHttpPath true
           git config --global user.email "moah.farag@gmail.com"
 
-      - name: Commit changes
-        run: |
           cat $YAML_PATH
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
