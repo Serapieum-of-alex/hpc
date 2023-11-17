@@ -75,7 +75,7 @@ jobs:
 
       - name: Commit changes
         run: |
-          echo $YAML_PATH
+          cat $YAML_PATH
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME
 
