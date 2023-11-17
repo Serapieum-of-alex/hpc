@@ -78,21 +78,14 @@ jobs:
       - name: Commit changes
         run: |
           #cat $YAML_PATH
+          git checkout -b version-update-$TAG_NAME
+          git push origin version-update-$TAG_NAME
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
           echo "---------------------------"
           git config --list --show-origin
           echo "---------------------------"
-          git push --set-upstream origin main
-        env:
-          token: ${{ secrets.Push_TO_CONDA_FORGE }}
-
-      # If you want to create a pull request to the feedstock repository
-      - name: Create Pull Request
-        run: |
-          echo $TAG_NAME
-          git checkout -b version-update-$TAG_NAME
-          git push origin version-update-$TAG_NAME
+          #git push
           gh pr create --title "Update recipe to $TAG_NAME" --body "This PR updates the recipe to the newly released version." --head version-update-$TAG_NAME --base main
         env:
-          GITHUB_TOKEN: ${{ secrets.Push_TO_CONDA_FORGE }}
+          token: ${{ secrets.Push_TO_CONDA_FORGE }}
