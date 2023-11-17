@@ -71,6 +71,7 @@ jobs:
       - name: Configure Git
         run: |
           git config --global user.name "mafarrag"
+          git config credential.username "mafarrag"
           git config --global user.email "moah.farag@gmail.com"
 
       - name: Commit changes
