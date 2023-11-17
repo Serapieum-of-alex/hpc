@@ -11,6 +11,8 @@ jobs:
     env:
       TAG_NAME: 0.1.2 #${{ github.event.release.tag_name }}
       YAML_PATH: recipe/meta.yaml
+      PACKAGE_NAME: hpc
+      ORG_NAME: Serapieum-of-alex
 
     steps:
       - name: Checkout the feedstock
@@ -25,17 +27,19 @@ jobs:
           # Assuming a simple Python package, update the version
           sed -i "s/version = \".*\"/version = \"$TAG_NAME\"/" $YAML_PATH
           # Update the sha256 checksum (you would need to calculate this, e.g., by downloading the release source archive)
-          SHA256SUM=$(wget -qO- https://github.com/Serapieum-of-alex/hpc/archive/$TAG_NAME.tar.gz | sha256sum | cut -d ' ' -f1)
+          SHA256SUM=$(wget -qO- $URL | sha256sum | cut -d ' ' -f1)
           sed -i "s/sha256: .*/sha256: $SHA256SUM/" $YAML_PATH
+        env:
+            URL: https://github.com/$ORG_NAME/$PACKAGE_NAME/archive/$TAG_NAME.tar.gz
 
       - name: Download requirements.txt
         run: |
           # Download the requirements.txt from the repository to the feedstock repository
-          curl -sL "https://raw.githubusercontent.com/Serapieum-of-alex/hpc/$TAG_NAME/requirements.txt" -o requirements.txt
+          curl -sL "https://raw.githubusercontent.com/$ORG_NAME/$PACKAGE_NAME/$TAG_NAME/requirements.txt" -o requirements.txt
 
           # Prepare the requirements to be inserted into the meta.yaml
           # Prefix each line with two spaces and a dash
-          formatted_requirements=$(sed 's/^/  - /' "requirements.txt")
+          formatted_requirements=$(sed 's/^/    - /' requirements.txt)
           echo "copied packages ------------------"
           echo "$formatted_requirements"
 
@@ -45,19 +49,22 @@ jobs:
                 /test:/b
                 d
             }' $YAML_PATH
-
           cat $YAML_PATH
           echo "-----------------------------------------------------------------------"
           # Now, we need to add the new requirements back into meta.yaml
           # We'll use awk to do this, looking for the line just before where we want to insert the new requirements
           awk -v req="$formatted_requirements" '
-              $1=="  run:" {
+              $1=="run:" {
                   print "  run:";  # Print the "run:" line
                   print req;  # Print the new requirements
+                  skip = 1;
                   next;  # Skip to the next line
               }
+              /^[^ ]/ { skip = 0 }  # Reset skip flag on encountering a non-indented line
+              skip { next }  # Skip lines until skip flag is reset
               { print }  # Print all other lines
           ' $YAML_PATH > temp_meta.yaml && mv temp_meta.yaml $YAML_PATH
+
           echo "---------------------------"
           cat $YAML_PATH
 
