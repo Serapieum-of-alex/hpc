@@ -83,7 +83,7 @@ jobs:
           echo "---------------------------"
           git config --list --show-origin
           echo "---------------------------"
-          git push
+          git push --set-upstream origin main
         env:
           token: ${{ secrets.Push_TO_CONDA_FORGE }}
 
