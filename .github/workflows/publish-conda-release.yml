@@ -77,7 +77,7 @@ jobs:
         run: |
           cat $YAML_PATH
           git add $YAML_PATH
-          git commit -m "Update to version $TAG_NAME
+          git commit -m "Update to version $TAG_NAME"
 
       - name: Push changes
         run: |
