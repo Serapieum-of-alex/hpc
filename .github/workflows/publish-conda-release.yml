@@ -70,6 +70,7 @@ jobs:
 
       - name: Commit changes
         run: |
+          echo $BRANCH
           git remote add upstream https://github.com/conda-forge/hpc-feedstock.git
           git fetch upstream
           git checkout upstream/$BRANCH && git checkout -b $BRANCH
