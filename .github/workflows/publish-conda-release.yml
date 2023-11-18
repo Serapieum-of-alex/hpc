@@ -76,7 +76,7 @@ jobs:
           echo "---------------------------"
           git fetch upstream
           echo "---------------------------"
-          git checkout upstream/$TAG_NAME && git checkout -b $TAG_NAME
+          git checkout -b $TAG_NAME
           echo "---------------------------"
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
