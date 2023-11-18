@@ -84,7 +84,7 @@ jobs:
           git push origin $TAG_NAME
         env:
           token: ${{ secrets.PUSH_TO_CONDA_FORGE }}
-          BRANCH: version-update-${{TAG_NAME}}
+
 
       # If you want to create a pull request to the feedstock repository
       - name: Create Pull Request
