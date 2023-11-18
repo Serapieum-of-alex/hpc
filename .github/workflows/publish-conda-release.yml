@@ -73,11 +73,17 @@ jobs:
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
           echo "---------------------------"
+          git remote add regro-cf-autotick-bot git@github.com:regro-cf-autotick-bot/hpc-feedstock.git
+          git fetch regro-cf-autotick-bot
+          git checkout regro-cf-autotick-bot/$BRANCH && git checkout -b $BRANCH
+          git push -u regro-cf-autotick-bot $BRANCH
+          echo "---------------------------"
           git config --list --show-origin
           echo "---------------------------"
-          git push --set-upstream origin main
+          #git push --set-upstream origin main
         env:
           token: ${{ secrets.PUSH_TO_CONDA_FORGE }}
+          BRANCH: version-update-$TAG_NAME
 
       # If you want to create a pull request to the feedstock repository
       - name: Create Pull Request
