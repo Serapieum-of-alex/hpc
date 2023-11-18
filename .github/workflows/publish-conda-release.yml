@@ -70,11 +70,13 @@ jobs:
 
       - name: Commit changes
         run: |
-          echo $BRANCH
           echo $TAG_NAME
+          echo "---------------------------"
           git remote add upstream https://github.com/conda-forge/hpc-feedstock.git
+          echo "---------------------------"
           git fetch upstream
-          git checkout upstream/TAG_NAME && git checkout -b TAG_NAME
+          echo "---------------------------"
+          git checkout upstream/$TAG_NAME && git checkout -b $TAG_NAME
           echo "---------------------------"
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
