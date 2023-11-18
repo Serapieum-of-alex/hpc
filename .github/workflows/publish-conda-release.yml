@@ -71,6 +71,7 @@ jobs:
       - name: Commit changes
         run: |
           echo $BRANCH
+          echo $TAG_NAME
           git remote add upstream https://github.com/conda-forge/hpc-feedstock.git
           git fetch upstream
           git checkout upstream/$BRANCH && git checkout -b $BRANCH
@@ -83,7 +84,7 @@ jobs:
           git push origin $BRANCH
         env:
           token: ${{ secrets.PUSH_TO_CONDA_FORGE }}
-          BRANCH: version-update-$TAG_NAME
+          BRANCH: ${{ version-update-$TAG_NAME }}
 
       # If you want to create a pull request to the feedstock repository
       - name: Create Pull Request
