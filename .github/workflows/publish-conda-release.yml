@@ -70,17 +70,16 @@ jobs:
 
       - name: Commit changes
         run: |
+          git remote add upstream https://github.com/conda-forge/hpc-feedstock.git
+          git fetch upstream
+          git checkout upstream/$BRANCH && git checkout -b $BRANCH
+          echo "---------------------------"
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
           echo "---------------------------"
-          git remote add regro-cf-autotick-bot git@github.com:regro-cf-autotick-bot/hpc-feedstock.git
-          git fetch regro-cf-autotick-bot
-          git checkout regro-cf-autotick-bot/$BRANCH && git checkout -b $BRANCH
-          git push -u regro-cf-autotick-bot $BRANCH
-          echo "---------------------------"
           git config --list --show-origin
           echo "---------------------------"
-          #git push --set-upstream origin main
+          git push origin $BRANCH
         env:
           token: ${{ secrets.PUSH_TO_CONDA_FORGE }}
           BRANCH: version-update-$TAG_NAME
