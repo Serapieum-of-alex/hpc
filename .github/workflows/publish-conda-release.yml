@@ -74,14 +74,14 @@ jobs:
           echo $TAG_NAME
           git remote add upstream https://github.com/conda-forge/hpc-feedstock.git
           git fetch upstream
-          git checkout upstream/$BRANCH && git checkout -b $BRANCH
+          git checkout upstream/TAG_NAME && git checkout -b TAG_NAME
           echo "---------------------------"
           git add $YAML_PATH
           git commit -m "Update to version $TAG_NAME"
           echo "---------------------------"
           git config --list --show-origin
           echo "---------------------------"
-          git push origin $BRANCH
+          git push origin $TAG_NAME
         env:
           token: ${{ secrets.PUSH_TO_CONDA_FORGE }}
           BRANCH: version-update-${{TAG_NAME}}
