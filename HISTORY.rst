@@ -22,3 +22,9 @@ History
 ------------------
 
 * Update dependencies
+
+
+0.1.3 (2024-06-24)
+------------------
+
+* Update dependencies
