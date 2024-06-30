@@ -1,2 +1,6 @@
-numpy >=1.25.2
-pip >=6.2.1
+numpy >=2.0.0
+pip >=24.0.0
+pytest >=8.2.2
+pytest-cov >=5.0.0
+scipy >=1.13.1
+setuptools >=70.1.1
