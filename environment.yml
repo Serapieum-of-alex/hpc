@@ -1,8 +1,9 @@
 channels:
   - conda-forge
 dependencies:
-  - python >=3.11
-  - numpy >=1.25.2
-  - pip >=23.2.1
-  - pytest >=7.4.3
-  - pytest-cov >=4.1.0
+  - python >=3.12
+  - numpy >=2.0.0
+  - scipy >=1.14.0
+  - pip >=24.0.0
+  - pytest >=8.2.2
+  - pytest-cov >=5.0.0
