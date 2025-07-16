@@ -71,7 +71,7 @@ hpc-utils = { path = ".", editable = true }
 [tool.setuptools]
 
 [tool.setuptools.packages.find]
-where = ["."]
+where = ["src"]
 include = ["hpc", "hpc.*"]
 
 [tool.pixi.tasks]
