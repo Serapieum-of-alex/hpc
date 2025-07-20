@@ -1,4 +1,7 @@
 fail_fast: true
+# default_language_version:
+#   python: pixi
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -166,7 +169,7 @@ repos:
     hooks:
       - id: doctest
         name: doctest
-        entry: --doctest-modules
+        entry: pytest --doctest-modules
         language: system
         files: ^src/hpc/.*\.py$
         always_run: true
