@@ -1,24 +1,39 @@
-from typing import Tuple, Union, List
+from typing import List, Tuple, Union
+
 import numpy as np
 
 
 def get_indices(
     arr: np.ndarray, mask_val: Union[int, float]
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Get the array indeces for the non-zero cells.
+    """Get the array indices for the non-zero cells.
 
-    Parameters
-    ----------
-    arr: [np.ndarray]
-        2D array with values you need to get the indexes of the cells that are filled with these values
-    mask_val: [int]
-        if you need to locate only a certain value, and not all values in the array
+    Args:
+        arr: 2D array with values you need to get the indexes of the cells that are filled with these values.
+        mask_val: If you need to locate only a certain value, and not all values in the array.
+            If None or falsy, will return indices of all non-zero values.
 
-    Returns
-    -------
-    Tuple[np.ndarray, np.ndarray]
-        - first array is the x index
-        - second row is the y index
+    Returns:
+        A tuple of two numpy arrays:
+            - first array is the row indices
+            - second array is the column indices
+
+    Examples:
+        ```python
+        >>> import numpy as np
+        >>> arr = np.array([[0, 1, 0], [0, 0, 2], [3, 0, 0]])
+        >>> i, j = get_indices(arr, None)
+        >>> print(i)
+        [0 1 2]
+        >>> print(j)
+        [1 2 0]
+        >>> i, j = get_indices(arr, 2)
+        >>> print(i)
+        [1]
+        >>> print(j)
+        [2]
+
+        ```
     """
     # Use the arr to get the indices of the non-zero pixels.
     if mask_val:
@@ -32,19 +47,36 @@ def get_indices(
 def get_pixels(arr, mask, mask_val=None):
     """Get pixels from a raster (with optional mask).
 
-    Parameters
-    ----------
-    arr : [np.ndarray]
-        Array of raster data in the form [bands][y][x].
-    mask : [np.ndarray]
-        Array (2D) of zeroes to mask data.(from the rastarizing the vector)
-    mask_val : int
-        Value of the data pixels in the mask. Default: non-zero.
+    Args:
+        arr: Array of raster data in the form [bands][y][x] or [y][x].
+        mask: Array (2D) of values to mask data (from rasterizing a vector).
+            If None, returns the original array.
+        mask_val: Value of the data pixels in the mask to extract.
+            If None or falsy, will extract all non-zero values.
 
-    Returns
-    -------
-    np.ndarray
-        Array of non-masked data.
+    Returns:
+        np.ndarray: Array of non-masked data.
+
+    Examples:
+        ```python
+        >>> import numpy as np
+        >>> # 2D array example
+        >>> arr_2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+        >>> mask = np.array([[0, 1, 0], [0, 0, 1], [0, 0, 0]])
+        >>> get_pixels(arr_2d, mask)
+        array([2, 6])
+        >>> # 3D array example
+        >>> arr_3d = np.array([[[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+        ...                    [[10, 20, 30], [40, 50, 60], [70, 80, 90]]])
+        >>> get_pixels(arr_3d, mask)
+        array([[ 2,  6],
+               [20, 60]])
+        >>> # With specific mask value
+        >>> mask2 = np.array([[0, 2, 0], [0, 0, 2], [0, 0, 0]])
+        >>> get_pixels(arr_2d, mask2, 2)
+        array([2, 6])
+
+        ```
     """
     if mask is None:
         return arr
@@ -56,20 +88,46 @@ def get_pixels(arr, mask, mask_val=None):
 
 
 def get_indices2(arr: np.ndarray, mask: List = None) -> List[Tuple[int, int]]:
-    """Get Indeces
+    """Get indices of array cells after filtering values based on mask values.
 
-        - get the indeces of array cells after filtering the values based on two mask values
+    This function returns the indices of array cells that don't match the values in the mask.
+    If mask is None, returns indices of all cells in the array.
 
-    Parameters
-    ----------
-    arr: [np.ndarray]
-        numpy array
-    mask: [list]
-        currently the mask list should contain only two values.
+    Args:
+        arr: 2D numpy array to get indices from.
+        mask: List of values to exclude from the result.
+            - If None, returns indices of all cells.
+            - If list with one value, returns indices of cells not equal to that value.
+            - If list with two values, returns indices of cells not equal to either value.
 
-    Returns
-    -------
+    Returns:
+        List of tuples (row, col) representing the indices of cells that pass the filter.
 
+    Raises:
+        ValueError: If mask contains more than two values.
+
+    Examples:
+        ```python
+        >>> import numpy as np
+        >>> arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+        >>> # Get all indices
+        >>> indices = get_indices2(arr, None)
+        >>> len(indices)  # 3x3 array = 9 indices
+        9
+        >>> # Filter out cells with value 5
+        >>> indices = get_indices2(arr, [5])
+        >>> sorted(indices) #doctest: +SKIP
+        [(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)]
+        >>> # Filter out cells with values 1 and 9
+        >>> indices = get_indices2(arr, [1, 9])
+        >>> sorted(indices)     #doctest: +SKIP
+        [(0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1)]
+        >>> # Works with NaN values
+        >>> arr_with_nan = np.array([[1, 2, np.nan], [4, 5, 6]])
+        >>> indices = get_indices2(arr_with_nan, [np.nan])
+        >>> sorted(indices) #doctest: +SKIP
+        [(0, 0), (0, 1), (1, 0), (1, 1), (1, 2)]
+        ```
     """
     # get the position of cells that is not zeros
     if mask is not None:
@@ -97,19 +155,48 @@ def get_indices2(arr: np.ndarray, mask: List = None) -> List[Tuple[int, int]]:
 
 
 def get_pixels2(arr: np.ndarray, mask: List = None) -> np.ndarray:
-    """Get pixels from a raster (with optional mask).
+    """Get pixels from a raster using the get_indices2 function for filtering.
 
-    Parameters
-    ----------
-    arr : [np.ndarray]
-        Array of raster data in the form [y][x].
-    mask : [np.ndarray]
-        Array (2D) of zeroes to mask data.(from the rastarizing the vector)
+    This function extracts pixel values from an array based on indices that don't match the mask values.
+    It works with both 2D and 3D arrays.
 
-    Returns
-    -------
-    np.ndarray
-        Array of non-masked data.
+    Args:
+        arr: Array of raster data in the form [y][x] for 2D arrays or [bands][y][x] for 3D arrays.
+        mask: List of values to exclude from the result.
+            - If None, returns all pixels.
+            - If list with values, returns pixels not matching those values.
+            See get_indices2 for more details on mask behavior.
+
+    Returns:
+        np.ndarray: Array of filtered pixel values.
+            - For 2D input: 1D array of values
+            - For 3D input: 2D array with bands as rows and filtered pixels as columns
+
+    Examples:
+        ```python
+        >>> import numpy as np
+        >>> # 2D array example
+        >>> arr_2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+        >>> # Get all pixels
+        >>> pixels = get_pixels2(arr_2d, None)
+        >>> len(pixels)
+        9
+        >>> # Filter out pixels with value 5
+        >>> pixels = get_pixels2(arr_2d, [5])
+        >>> sorted(pixels) #doctest: +SKIP
+        [1, 2, 3, 4, 6, 7, 8, 9]
+        >>> # 3D array example
+        >>> arr_3d = np.array([[[1, 2, 3], [4, 5, 6]],
+        ...                    [[10, 20, 30], [40, 50, 60]]])
+        >>> # Filter out pixels with value 5 and 50
+        >>> pixels = get_pixels2(arr_3d, [5, 50])
+        >>> pixels.shape
+        (2, 5)
+        >>> pixels[0]  # First band values #doctest: +SKIP
+        array([1, 2, 3, 4, 6])
+        >>> pixels[1]  # Second band values #doctest: +SKIP
+        array([10, 20, 30, 40, 60])
+        ```
     """
     if arr.ndim == 2:
         ind = get_indices2(arr, mask)
@@ -126,46 +213,59 @@ def get_pixels2(arr: np.ndarray, mask: List = None) -> np.ndarray:
 
 
 def locate_values(values: np.ndarray, grid_x: np.ndarray, grid_y: np.ndarray):
-    """Locate values in an array
+    """Locate coordinates in a grid by finding the closest grid points.
 
-        locate a value in array, each point has to values (resembling the x & y coordinates), the values array
-        is the grid that we are trying to locate our coordinates in, with the first column being the x
-        coordinate, and the second column being the y coordinates.
+    This function takes a set of (x,y) coordinates and finds the closest matching indices
+    in the provided grid_x and grid_y arrays.
 
-    Parameters
-    ----------
-    values: [array]
-        array with a dimension (any, 2), each row has two values x & y coordinates.
-        array([[454795, 503143],
-               [443847, 481850],
-               [454044, 481189]])
-    grid_x: [array]
-        - The x coordinates starting from left to righ (west to east), so the first value is the mine first value is
-    grid_y: [array]
-        - The y coordinates starting from top to bottom (north to south), so the first value is
-        the max
-        np.array([[434968, 518007],
-                   [438968, 514007],
-                   [442968, 510007],
-                   [446968, 506007],
-                   [450968, 502007],
-                   [454968, 498007],
-                   [458968, 494007],
-                   [462968, 490007],
-                   [466968, 486007],
-                   [470968, 482007],
-                   [474968, 478007],
-                   [478968, 474007],
-                   [482968, 470007],
-                   [486968, 466007]])
+    Args:
+        values: Array with shape (n, 2), where each row contains [x, y] coordinates to locate.
+            Example:
+            ```
+            array([[454795, 503143],
+                   [443847, 481850],
+                   [454044, 481189]])
+            ```
+        grid_x: Array of x-coordinates (west to east) to search within.
+            These are typically the x-coordinates of a grid.
+        grid_y: Array of y-coordinates (north to south) to search within.
+            These are typically the y-coordinates of a grid.
 
-    Returns
-    -------
-    array:
-        array with a shape (any, 2), for the row, column indices in the array.
-        array([[ 5,  4],
-               [ 2,  9],
-               [ 5,  9]])
+    Returns:
+        np.ndarray: Array with shape (n, 2) containing the [row, col] indices of the
+            closest grid points to each input coordinate.
+            Example:
+            ```
+            array([[ 5,  4],
+                   [ 2,  9],
+                   [ 5,  9]])
+            ```
+
+    Examples:
+        ```python
+        >>> import numpy as np
+        >>> # Create sample coordinates to locate
+        >>> coords = np.array([[10, 20], [30, 40], [50, 60]])
+        >>> # Create grid coordinates
+        >>> grid_x = np.array([0, 10, 20, 30, 40, 50])
+        >>> grid_y = np.array([0, 20, 40, 60, 80])
+        >>> # Find the closest grid indices
+        >>> indices = locate_values(coords, grid_x, grid_y)
+        >>> print(indices)
+        [[1 1]
+         [3 2]
+         [5 3]]
+        >>> # Verify the first coordinate [10, 20] maps to grid_x[1]=10, grid_y[1]=20
+        >>> grid_x[indices[0, 0]], grid_y[indices[0, 1]]
+        (np.int64(10), np.int64(20))
+        >>> # Verify the second coordinate [30, 40] maps to grid_x[3]=30, grid_y[2]=40
+        >>> grid_x[indices[1, 0]], grid_y[indices[1, 1]]
+        (np.int64(30), np.int64(40))
+        >>> # Verify the third coordinate [50, 60] maps to grid_x[5]=50, grid_y[3]=60
+        >>> grid_x[indices[2, 0]], grid_y[indices[2, 1]]
+        (np.int64(50), np.int64(60))
+
+        ```
     """
 
     def find(point_i):
