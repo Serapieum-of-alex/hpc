@@ -39,7 +39,9 @@ dev = [
     "pre-commit-hooks >=4.6.0",
     "pytest >=8.2.2",
     "pytest-cov >= 5.0.0",
-    "coverage"
+    "coverage",
+    "build>=1.0.0",
+    "twine>=5.0.0",
 ]
 docs = [
     "mkdocs >=1.5.3",
@@ -85,6 +87,8 @@ line_length = 88
 multi_line_output = 3
 
 [tool.pixi.tasks]
+build-dist = { cmd = "python -m build", description = "Build sdist and wheel for PyPI" }
+publish-pypi = { cmd = "twine upload --non-interactive --repository pypi dist/*", depends-on = ["build-dist"], description = "Build and upload package to PyPI" }
 
 [tool.pixi.environments]
 default = { features = ["dev"], solve-group = "default" }
