@@ -217,8 +217,8 @@ def get_indices2(
             else:
                 mask = ~np.isclose(arr, mask[0], rtol=0.001)
 
-        rows = np.where(mask)[0]
-        cols = np.where(mask)[1]
+        rows = np.nonzero(mask)[0]
+        cols = np.nonzero(mask)[1]
 
         ind = list(zip(rows, cols))
     else:
