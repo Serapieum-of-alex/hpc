@@ -77,8 +77,7 @@ include = ["hpc", "hpc.*"]
 [tool.pixi.tasks]
 
 [tool.pixi.environments]
-default = { solve-group = "default" }
-dev = { features = ["dev"], solve-group = "default" }
+default = { features = ["dev"], solve-group = "default" }
 docs = { features = ["docs"], solve-group = "default" }
 
 [tool.pytest.ini_options]
