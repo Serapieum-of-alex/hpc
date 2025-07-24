@@ -1,6 +1,6 @@
 [project]
 name = "hpc-utils"
-version = "0.1.4"
+version = "0.1.5"
 description = "numpy utility package"
 authors = [{name = "Mostafa Farrag", email = "moah.farag@gmail.com"}]
 readme = {file = "README.md", content-type = "text/markdown"}
