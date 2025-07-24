@@ -52,7 +52,7 @@ pip install git+https://github.com/MAfarrag/hpc
 ## pip
 to install the last release you can easly use pip
 ```
-pip install hpc-utils==0.1.4
+pip install hpc-utils==0.1.5
 ```
 
 Quick start
