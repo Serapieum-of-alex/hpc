@@ -105,6 +105,8 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Installation: installation.md
+  - Development:
+    - Pre-commit Hooks: pre-commit.md
   - API Documentation:
     - Indexing: api/indexing.md
   - Change-log: change-log.md
