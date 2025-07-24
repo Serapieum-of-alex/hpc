@@ -55,7 +55,7 @@ def get_indices(
         ```
     """
     # Use the arr to get the indices of the non-zero pixels.
-    if mask_val:
+    if mask_val is not None:
         (i, j) = (arr == mask_val).nonzero()
     else:
         (i, j) = arr.nonzero()
@@ -119,6 +119,20 @@ def get_pixels(
     """
     if mask is None:
         return arr
+
+    # Validate that mask dimensions match array dimensions
+    if arr.ndim == 2:
+        if mask.shape != arr.shape:
+            raise ValueError(
+                f"Mask shape {mask.shape} does not match array shape {arr.shape}"
+            )
+    elif arr.ndim == 3:
+        if mask.shape != arr.shape[1:]:
+            raise ValueError(
+                f"Mask shape {mask.shape} does not match array shape {arr.shape[1:]}"
+            )
+    else:
+        raise ValueError(f"Unsupported array dimensions: {arr.ndim}")
 
     i, j = get_indices(mask, mask_val)
     # get the corresponding values to the indices from the array
@@ -382,6 +396,19 @@ def locate_values(
 
         ```
     """
+    # Validate inputs
+    if len(grid_x) == 0:
+        raise ValueError("grid_x cannot be empty")
+    if len(grid_y) == 0:
+        raise ValueError("grid_y cannot be empty")
+
+    # Handle empty values array
+    if len(values) == 0:
+        return np.zeros((0, 2), dtype=int)
+
+    # Validate values shape
+    if values.ndim != 2 or values.shape[1] != 2:
+        raise ValueError(f"values must have shape (n, 2), got {values.shape}")
 
     def find(point_i):
         x_ind = np.abs(point_i[0] - grid_x).argmin()

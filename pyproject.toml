@@ -70,9 +70,19 @@ hpc-utils = { path = ".", editable = true }
 
 [tool.setuptools]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["hpc", "hpc.*"]
+[tool.flake8]
+ignore = ["E731", "E501", "E203", "F821", "E722", "B001", "D401", "B006", "D202", "W503"]
+max-line-length = 88
+
+[tool.black]
+profile = "flake8"
+line-length = 88
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
 
 [tool.pixi.tasks]
 
