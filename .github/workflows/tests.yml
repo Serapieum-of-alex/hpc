@@ -24,7 +24,7 @@ jobs:
 #           cache: true
 
       - name: Install dependencies
-        run: pixi install
+        run: pixi install --locked
 
       - name: Run tests
         run: pixi run test
