@@ -14,7 +14,7 @@ except PackageNotFoundError:  # pragma: no cover
 # documentation format
 __author__ = "Mostafa Farrag"
 __email__ = "moah.farag@gmail.com"
-__docformat__ = "restructuredtext"
+__docformat__ = "google"
 
 # Let users know if they're missing any of our hard dependencies
 hard_dependencies = ()  # ("numpy", "pandas", "gdal")
@@ -30,6 +30,22 @@ for dependency in hard_dependencies:
 if missing_dependencies:
     raise ImportError("Missing required dependencies {0}".format(missing_dependencies))
 
-__doc__ = """
-numpy-utils - numpy utility package
+__doc__ = """HPC - Numpy utility package for high-performance computing applications.
+
+This package provides efficient functions for indexing and manipulating numpy arrays
+without using loops, resulting in faster execution times.
+
+Examples:
+    ```python
+    import numpy as np
+    import hpc
+
+    # Create a sample array
+    arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+
+    # Get indices of all non-zero values
+    i, j = hpc.get_indices(arr, None)
+    print(f"Row indices: {i}")
+    print(f"Column indices: {j}")
+    ```
 """
