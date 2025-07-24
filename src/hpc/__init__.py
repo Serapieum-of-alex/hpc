@@ -16,19 +16,6 @@ __author__ = "Mostafa Farrag"
 __email__ = "moah.farag@gmail.com"
 __docformat__ = "google"
 
-# Let users know if they're missing any of our hard dependencies
-hard_dependencies = ()  # ("numpy", "pandas", "gdal")
-missing_dependencies = []
-
-for dependency in hard_dependencies:
-    try:
-        __import__(dependency)
-    except ImportError as e:
-        missing_dependencies.append(dependency)
-        print(e)
-
-if missing_dependencies:
-    raise ImportError("Missing required dependencies {0}".format(missing_dependencies))
 
 __doc__ = """HPC - Numpy utility package for high-performance computing applications.
 
