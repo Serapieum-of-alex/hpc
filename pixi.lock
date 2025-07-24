@@ -943,7 +943,7 @@ packages:
 - pypi: ./
   name: hpc-utils
   version: 0.1.4
-  sha256: 860763eb815716e97a2545746da147eb123750abadf2558974b35c86ec9aefa1
+  sha256: f50624499e6cdd4652c806939c294fe83ad726fb828490c7e8a40a8454ba6bee
   requires_dist:
   - numpy>=2.0.0
   - nbval>=0.11.0 ; extra == 'dev'
