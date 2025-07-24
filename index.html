@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <title>Redirecting</title>
   <noscript>
+    <!-- Delay of 1 second before redirecting for users without JavaScript -->
     <meta http-equiv="refresh" content="1; url=develop/" />
   </noscript>
   <script>
+    // Immediately redirect to the develop documentation, preserving query and hash
     window.location.replace(
       "develop/" + window.location.search + window.location.hash
     );
