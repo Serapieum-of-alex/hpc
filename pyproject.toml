@@ -27,9 +27,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/MAfarrag/hpc"
-Repository = "https://github.com/MAfarrag/hpc"
-Documentation = "https://hpc-utils.readthedocs.io/"
+Homepage = "https://github.com/Serapieum-of-alex/hpc"
+Repository = "https://github.com/Serapieum-of-alex/hpc"
+Documentation = "https://serapieum-of-alex.github.io/hpc/"
 
 
 [project.optional-dependencies]
