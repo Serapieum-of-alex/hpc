@@ -1,18 +1,15 @@
 [![Python Versions](https://img.shields.io/pypi/pyversions/hpc.png)](https://img.shields.io/pypi/pyversions/hpc)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-
-
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/Serapieum-of-alex/hpc)
 ![GitHub forks](https://img.shields.io/github/forks/Serapieum-of-alex/hpc?style=social)
 ![GitHub Repo stars](https://img.shields.io/github/stars/Serapieum-of-alex/hpc?style=social)
 
-
 [![tests](https://github.com/Serapieum-of-alex/hpc/actions/workflows/tests.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/tests.yml)
 [![pypi-release](https://github.com/Serapieum-of-alex/hpc/actions/workflows/pypi-release.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/pypi-release.yml)
-[![Deploy MkDocs](https://github.com/Serapieum-of-alex/hpc/actions/workflows/github-pages-mkdocs.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/github-pages-mkdocs.yml)
-[![Create GitHub Release](https://github.com/Serapieum-of-alex/hpc/actions/workflows/create-release.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/create-release.yml)
+[![mkdocs ](https://github.com/Serapieum-of-alex/hpc/actions/workflows/github-pages-mkdocs.yml/badge.svg)]
+(https://github.com/Serapieum-of-alex/hpc/actions/workflows/github-pages-mkdocs.yml)
+[![GitHub Release](https://github.com/Serapieum-of-alex/hpc/actions/workflows/create-release.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/create-release.yml)
 
 Full documentation is available at [serapieum-of-alex.github.io/hpc](https://serapieum-of-alex.github.io/hpc//)
 
