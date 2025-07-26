@@ -1,9 +1,9 @@
 import numpy as np
 
-from hpc.indexing import get_indices2, locate_values, get_pixels2
+from hpc.indexing import get_indices2, get_pixels2, locate_values
 
 
-class TestGetIndeces2:
+class TestGetIndices2:
     def test_with_mask(
         self,
         arr: np.ndarray,
