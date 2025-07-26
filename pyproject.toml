@@ -59,6 +59,7 @@ docs = [
     "jupyter"
 ]
 
+
 [build-system]
 requires = ["setuptools>=70.1.1", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -96,18 +97,15 @@ publish-pypi = { cmd = "twine upload --non-interactive --repository pypi dist/*"
 [tool.pixi.environments]
 default = { features = ["dev"], solve-group = "default" }
 docs = { features = ["docs"], solve-group = "default" }
-
+py311 = { features = ["py311"], solve-group = "py311" }
+py312 = { features = ["py312"], solve-group = "py312" }
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
 
 
-[feature.py311.dependencies]
+[tool.pixi.feature.py311.dependencies]
 python = "3.11.*"
-[feature.py312.dependencies]
+[tool.pixi.feature.py312.dependencies]
 python = "3.12.*"
-
-[environments]
-py311 = ["py311"]
-py312 = ["py312"]
