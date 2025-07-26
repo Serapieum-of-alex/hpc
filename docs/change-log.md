@@ -4,8 +4,7 @@
 
 ### Dev
 - Improved documentation with Google style docstrings
-- Added more comprehensive examples to all functions
-- Updated mkdocs configuration to use Google style docstrings
+- use pixi as package manager
 
 ## 0.1.4 (2024-06-24)
 
