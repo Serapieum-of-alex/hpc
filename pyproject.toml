@@ -26,11 +26,6 @@ dependencies = [
     "numpy>=2.0.0",
 ]
 
-[project.urls]
-Homepage = "https://github.com/Serapieum-of-alex/hpc"
-Repository = "https://github.com/Serapieum-of-alex/hpc"
-Documentation = "https://serapieum-of-alex.github.io/hpc/"
-
 
 [project.optional-dependencies]
 dev = [
@@ -59,17 +54,15 @@ docs = [
     "jupyter"
 ]
 
+[project.urls]
+Homepage = "https://github.com/Serapieum-of-alex/hpc"
+Repository = "https://github.com/Serapieum-of-alex/hpc"
+Documentation = "https://serapieum-of-alex.github.io/hpc/"
+
 
 [build-system]
 requires = ["setuptools>=70.1.1", "wheel"]
 build-backend = "setuptools.build_meta"
-
-[tool.pixi.workspace]
-channels = ["conda-forge"]
-platforms = ["win-64", "linux-64"]
-
-[tool.pixi.pypi-dependencies]
-hpc-utils = { path = ".", editable = true }
 
 [tool.setuptools]
 
@@ -87,9 +80,20 @@ profile = "black"
 line_length = 88
 multi_line_output = 3
 
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64"]
+
+[tool.pixi.pypi-dependencies]
+hpc-utils = { path = ".", editable = true }
 
 [tool.pixi.tasks]
-test = { cmd = "pytest -vvv --cov=hpc --cov-report=xml", description = "Run test suite" }
+test = { cmd = "pytest -vvv --cov=src/hpc --cov-report=xml", description = "Run test suite" }
 build-dist = { cmd = "python -m build", description = "Build sdist and wheel for PyPI" }
 publish-pypi = { cmd = "twine upload --non-interactive --repository pypi dist/*", depends-on = ["build-dist"], description = "Build and upload package to PyPI" }
 
@@ -100,10 +104,6 @@ docs = { features = ["docs"], solve-group = "default" }
 py311 = { features = ["py311", "dev"], solve-group = "py311" }
 py312 = { features = ["py312", "dev"], solve-group = "py312" }
 py313 = { features = ["py313", "dev"], solve-group = "py313" }
-
-[tool.pytest.ini_options]
-pythonpath = ["src"]
-testpaths = ["tests"]
 
 
 [tool.pixi.feature.py311.dependencies]
