@@ -7,8 +7,7 @@
 
 [![tests](https://github.com/Serapieum-of-alex/hpc/actions/workflows/tests.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/tests.yml)
 [![pypi-release](https://github.com/Serapieum-of-alex/hpc/actions/workflows/pypi-release.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/pypi-release.yml)
-[![mkdocs ](https://github.com/Serapieum-of-alex/hpc/actions/workflows/github-pages-mkdocs.yml/badge.svg)]
-(https://github.com/Serapieum-of-alex/hpc/actions/workflows/github-pages-mkdocs.yml)
+[![Deploy MkDocs](https://github.com/Serapieum-of-alex/hpc/actions/workflows/github-pages-mkdocs.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/github-pages-mkdocs.yml)
 [![GitHub Release](https://github.com/Serapieum-of-alex/hpc/actions/workflows/create-release.yml/badge.svg)](https://github.com/Serapieum-of-alex/hpc/actions/workflows/create-release.yml)
 
 Full documentation is available at [serapieum-of-alex.github.io/hpc](https://serapieum-of-alex.github.io/hpc//)
